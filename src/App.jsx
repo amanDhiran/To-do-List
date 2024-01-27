@@ -19,6 +19,13 @@ function App() {
     })
     setInputValue("")
   }
+  
+  function handleDelete(i){
+    let copyItems = [...items]
+    copyItems.splice(i,1)
+    setItems(copyItems)
+    // let newItems = items.filter((item)=> )
+  }
 
   return (
     <div className=' rounded-3xl w-full max-w-96 mx-auto mt-4 p-3 h-[90vh] bg-yellow-400 '>
@@ -38,14 +45,16 @@ function App() {
       </div>
       <div className=' mt-5'>
         <ul className='p-2 '>
-          {items.map((item,i) => <li id={i} className=' flex gap-2 items-center justify-between my-2'>
+          {items.map((item,i) => <li key={i} id={i} className=' flex gap-2 items-center justify-between my-2'>
           <div className='flex gap-2 items-center'>
-          <input type="checkbox" />
+          {/* <input type="checkbox" /> */}
           <p>{item}</p>
           </div>
           <div>
-          <button className=' bg-slate-500 rounded-md px-3 mx-2'>Edit</button>
-          <button className=' bg-slate-500 rounded-md px-3'>Delete</button>
+          {/* <button className=' bg-slate-500 rounded-md px-3 mx-2'>Edit</button> */}
+          <button onClick={()=>{
+            handleDelete(i)
+            }} className=' cursor-pointer rounded-md bg-gray-300 px-1 '>❌</button>
           </div>
           </li>)}
         </ul>
