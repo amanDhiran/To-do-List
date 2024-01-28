@@ -1,30 +1,29 @@
-import { useState } from 'react'
+import React, { useState } from "react"
 
 import './App.css'
+import InputForm from './Components/InputForm'
+import ToDo from "./Components/ToDo"
 
 function App() {
-  const [inputValue, setInputValue] = useState("")
+  
 
   const [items, setItems] = useState([])
 
-  function handleChange(event){
-    let input = event.target.value
-
-    setInputValue(input)
-  }
-
-  function addItems(){
+  function addItems(inputValue){
     setItems((prev) => {
       return [...prev, inputValue]
     })
-    setInputValue("")
+    
   }
   
   function handleDelete(i){
-    let copyItems = [...items]
-    copyItems.splice(i,1)
-    setItems(copyItems)
-    // let newItems = items.filter((item)=> )
+    // let copyItems = [...items]
+    // copyItems.splice(i,1)
+    // setItems(copyItems)
+    let newItems = items.filter((item, id)=>{
+        return id !==i
+    } )
+    setItems(newItems)
   }
 
   return (
@@ -33,30 +32,18 @@ function App() {
         <h1 className=' text-center text-xl font-bold '>To Do List</h1>
       </div>
       <br />
-      <div className='flex gap-3 my-3'>
-        <input 
-        type="text" 
-        className=' bg-transparent outline-none   w-4/5 border-b p-1 border-black'
-        placeholder='Enter your to-do'
-        onChange={handleChange}
-        value={inputValue}
-        />
-        <button className='p-1 outline-none px-4 rounded-md bg-black text-yellow-400 hover:bg-slate-600 transition-colors ' onClick={addItems}>Add</button>
-      </div>
+      <InputForm 
+      onAdd={addItems}
+      />
       <div className=' mt-5'>
         <ul className='p-2 '>
-          {items.map((item,i) => <li key={i} id={i} className=' flex gap-2 items-center justify-between my-2'>
-          <div className='flex gap-2 items-center'>
-          {/* <input type="checkbox" /> */}
-          <p>{item}</p>
-          </div>
-          <div>
-          {/* <button className=' bg-slate-500 rounded-md px-3 mx-2'>Edit</button> */}
-          <button onClick={()=>{
-            handleDelete(i)
-            }} className=' cursor-pointer rounded-md bg-gray-300 px-1 '>❌</button>
-          </div>
-          </li>)}
+          {items.map((item,i) => (
+          <ToDo 
+          text = {item}
+          id = {i}
+          onDelete = {handleDelete}
+          />
+          ))}
         </ul>
       </div>
     </div>
