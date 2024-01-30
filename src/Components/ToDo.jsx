@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useTodo } from "../contexts/TodoContext";
+import { MdDelete } from "react-icons/md";
 
-
-function ToDo(props){
+function ToDo({todo}){
 
     const [isChecked, setIsChecked] = useState(false)
+    const {handleDelete} = useTodo()
+    const [todoMsg, setTodoMsg] = useState(todo.todo)
 
     function handleClick(){
         setIsChecked((prev)=>{
@@ -12,18 +15,18 @@ function ToDo(props){
     }
 
     return (
-        <li key={props.id} id={props.id} className=' flex gap-2 items-center justify-between my-2'>
+        <>
           <div className='flex gap-2 items-center'>
           <input onChange={handleClick} type="checkbox" />
-          <p style = {{ textDecoration: isChecked ? "line-through" : "none"}}>{props.text}</p>
+          <p className={`${isChecked? "text-gray-600" : "text-black"}`} style = {{ textDecoration: isChecked ? "line-through" : "none"}}>{todoMsg}</p>
           </div>
           <div>
           {/* <button className=' bg-slate-500 rounded-md px-3 mx-2'>Edit</button> */}
           <button onClick={()=>{
-            props.onDelete(props.id)
-            }} className=' cursor-pointer rounded-md bg-gray-300 px-1 '>❌</button>
+            handleDelete(todo.id)
+            }} className=' cursor-pointer text-xl text-red-600  '><MdDelete /></button>
           </div>
-          </li>
+        </>
     )
 }
 
